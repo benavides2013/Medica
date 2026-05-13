@@ -48,14 +48,26 @@
         nav a { color: rgba(255,255,255,0.8); text-decoration: none; font-weight: 500; cursor: pointer; transition: 0.3s; }
         nav a:hover, nav a.active { color: var(--secondary); border-bottom: 2px solid var(--secondary); }
 
+        /* --- MODAL DE REPROGRAMACIÓN --- */
+        #modal-repro {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7); display: none;
+            justify-content: center; align-items: center; z-index: 3000;
+            backdrop-filter: blur(5px);
+        }
+        .modal-content {
+            background: white; padding: 35px; border-radius: 20px; width: 380px;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.4); border-top: 8px solid var(--secondary);
+        }
+
         /* --- VISTAS --- */
         .view { display: none; min-height: 100vh; padding-top: 80px; animation: fadeIn 0.5s ease; }
         .view.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; } }
 
-        /* --- HERO (INICIO) --- */
+        /* --- HERO --- */
         .hero {
-            height: 50vh;
+            height: 45vh;
             background: linear-gradient(rgba(0,51,102,0.7), rgba(0,51,102,0.7)), 
                         url('https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1920&q=80');
             background-attachment: fixed; background-size: cover; background-position: center;
@@ -73,8 +85,8 @@
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
 
         /* --- FORMULARIOS --- */
-        label { font-weight: bold; color: var(--primary); display: block; margin-top: 10px; }
-        input, select { width: 100%; padding: 12px; margin: 8px 0; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box; }
+        label { font-weight: bold; color: var(--primary); display: block; margin-top: 15px; }
+        input, select { width: 100%; padding: 12px; margin: 8px 0; border-radius: 8px; border: 1px solid #ddd; box-sizing: border-box; }
         .btn { width: 100%; padding: 12px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.3s; }
         .btn-primary { background: var(--primary); color: white; }
         .btn-primary:hover { background: var(--secondary); }
@@ -83,22 +95,41 @@
         table { width: 100%; border-collapse: collapse; background: white; border-radius: 15px; overflow: hidden; margin-top: 20px; }
         th { background: #eef2f7; color: var(--primary); padding: 15px; text-align: left; }
         td { padding: 15px; border-bottom: 1px solid #eee; }
-        .btn-act { padding: 6px 12px; border: none; border-radius: 6px; color: white; cursor: pointer; font-size: 0.9rem; }
+        .btn-act { padding: 8px 12px; border: none; border-radius: 6px; color: white; cursor: pointer; }
 
-        footer { background: var(--primary); color: white; padding: 30px; text-align: center; }
+        footer { background: var(--primary); color: white; padding: 30px; text-align: center; margin-top: 50px; }
     </style>
 </head>
 <body>
 
-    <!-- PANTALLA LOGIN -->
+    <!-- MODAL REPROGRAMAR -->
+    <div id="modal-repro">
+        <div class="modal-content">
+            <h2 style="color: var(--primary); margin-top: 0;">🗓️ Reprogramar</h2>
+            <p id="repro-paciente" style="background: #f0f4f8; padding: 10px; border-radius: 8px; font-weight: 600; color: var(--primary);"></p>
+            
+            <label>Nueva Fecha</label>
+            <input type="date" id="newDate">
+            
+            <label>Nueva Hora</label>
+            <input type="time" id="newTime">
+            
+            <div style="display: flex; gap: 10px; margin-top: 25px;">
+                <button class="btn btn-primary" style="background: var(--accent);" onclick="app.confirmarReprogramacion()">Confirmar</button>
+                <button class="btn" style="background: #eee; color: #666;" onclick="app.cerrarModal()">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- LOGIN -->
     <div id="login-screen">
         <div class="login-card">
-            <div style="font-size: 3rem; margin-bottom: 10px;">✚</div>
+            <div style="font-size: 3rem;">✚</div>
             <h2>MediSchedule</h2>
-            <p style="opacity: 0.8; font-size: 0.8rem; margin-bottom: 20px;">Acceso restringido Equipo 4</p>
+            <p style="font-size: 0.8rem; opacity: 0.8;">Acceso Seguro - Equipo 4</p>
             <input type="text" id="user" placeholder="Usuario (admin)">
             <input type="password" id="pass" placeholder="Contraseña (1234)">
-            <button class="btn" style="background:white; color:var(--primary)" onclick="validarAcceso()">Entrar al Sistema</button>
+            <button class="btn" style="background:white; color:var(--primary)" onclick="validarAcceso()">Entrar</button>
         </div>
     </div>
 
@@ -113,96 +144,84 @@
         </nav>
     </header>
 
-    <!-- VISTA 1: INICIO -->
     <div id="view-inicio" class="view active">
         <section class="hero">
             <h1 style="font-size: 3.5rem; margin: 0;">Excelencia Médica</h1>
-            <p style="font-size: 1.2rem; opacity: 0.9;">Soluciones Integrales para el Equipo 4</p>
+            <p style="font-size: 1.2rem; opacity: 0.9;">Proyecto Hospitalario Equipo 4</p>
         </section>
         <div class="container">
             <div class="grid-2">
                 <div class="info-card">
-                    <h3>🎯 Nuestra Misión</h3>
-                    <p>Optimizar el agendamiento clínico mediante tecnología de punta y procesos simplificados.</p>
+                    <h3>🎯 Misión</h3>
+                    <p>Brindar una plataforma de gestión ágil para mejorar la atención al paciente.</p>
                 </div>
                 <div class="info-card">
-                    <h3>👁️ Nuestra Visión</h3>
-                    <p>Ser el referente nacional en gestión hospitalaria digital para el año 2026.</p>
+                    <h3>👁️ Visión</h3>
+                    <p>Ser la herramienta líder en digitalización hospitalaria para el 2026.</p>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- VISTA 2: REGISTROS -->
     <div id="view-registro" class="view">
         <div class="container">
             <div class="grid-2">
                 <div class="info-card">
                     <h3 style="color:var(--primary)">👤 Registro de Paciente</h3>
                     <label>Documento de Identidad</label>
-                    <input type="number" id="pDoc" placeholder="CC / TI / Registro">
+                    <input type="number" id="pDoc" placeholder="CC / TI">
                     <label>Nombre Completo</label>
                     <input type="text" id="pName" placeholder="Nombre completo">
-                    <button class="btn btn-primary" onclick="app.add('paciente')">Guardar en Base de Datos</button>
+                    <button class="btn btn-primary" onclick="app.add('paciente')">Registrar Paciente</button>
                 </div>
                 <div class="info-card">
                     <h3 style="color:var(--primary)">👨‍⚕️ Registro de Médico</h3>
                     <label>Nombre del Médico</label>
                     <input type="text" id="mName" placeholder="Nombre completo">
-                    <label>Seleccionar Especialidad</label>
+                    <label>Especialidad</label>
                     <select id="mEsp">
-                        <option value="Medicina General">Medicina General</option>
-                        <option value="Pediatría">Pediatría</option>
-                        <option value="Cardiología">Cardiología</option>
-                        <option value="Neurología">Neurología</option>
-                        <option value="Ortopedia">Ortopedia</option>
+                        <option>Medicina General</option>
+                        <option>Pediatría</option>
+                        <option>Cardiología</option>
+                        <option>Dermatología</option>
                     </select>
-                    <button class="btn btn-primary" onclick="app.add('medico')">Guardar en Staff</button>
+                    <button class="btn btn-primary" onclick="app.add('medico')">Registrar Médico</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- VISTA 3: AGENDAR CITAS -->
     <div id="view-citas" class="view">
         <div class="container">
             <div class="grid-2" style="grid-template-columns: 1fr 2fr;">
-                <!-- Formulario Agendar -->
                 <div class="info-card">
                     <h3>📅 Agendar Cita</h3>
-                    <label>Paciente</label>
+                    <label>Seleccionar Paciente</label>
                     <select id="selP"><option value="">Seleccione...</option></select>
-                    <label>Médico</label>
+                    <label>Seleccionar Médico</label>
                     <select id="selM"><option value="">Seleccione...</option></select>
                     
-                    <div class="grid-2" style="gap: 10px; margin-top: 10px;">
-                        <div>
-                            <label>Fecha</label>
-                            <input type="date" id="cDate">
-                        </div>
-                        <div>
-                            <label>Hora</label>
-                            <input type="time" id="cTime">
-                        </div>
+                    <div class="grid-2" style="gap: 10px;">
+                        <div><label>Fecha</label><input type="date" id="cDate"></div>
+                        <div><label>Hora</label><input type="time" id="cTime"></div>
                     </div>
                     
-                    <button class="btn btn-primary" style="background:var(--accent); margin-top: 20px;" onclick="app.book()">Confirmar Cita</button>
+                    <button class="btn btn-primary" style="background:var(--accent); margin-top:20px" onclick="app.book()">Agendar Cita</button>
                 </div>
 
-                <!-- Tabla Control -->
                 <div class="info-card">
                     <h3>📋 Control de Agenda</h3>
                     <table>
                         <thead>
                             <tr>
-                                <th>Paciente (Doc)</th>
-                                <th>Médico (Esp)</th>
+                                <th>Paciente</th>
+                                <th>Médico</th>
                                 <th>Fecha/Hora</th>
-                                <th>Acción</th>
+                                <th>Acciones</th>
                             </tr>
                         </thead>
                         <tbody id="tableBody">
-                            <tr><td colspan="4" style="text-align:center; color:#999;">Sin registros</td></tr>
+                            <tr><td colspan="4" style="text-align:center; color:#999;">No hay citas registradas</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -210,54 +229,45 @@
         </div>
     </div>
 
-    <footer>
-        <p>Software de Gestión Médica | <b>EQUIPO 4</b> | © 2026</p>
-    </footer>
+    <footer><p>Gestión Médica | <b>EQUIPO 4</b> | © 2026</p></footer>
 
     <script>
         function validarAcceso() {
-            const u = document.getElementById('user').value;
-            const p = document.getElementById('pass').value;
-            if(u === "admin" && p === "1234") {
-                document.getElementById('login-screen').style.opacity = "0";
-                setTimeout(() => document.getElementById('login-screen').style.display = "none", 500);
-            } else { alert("Datos incorrectos"); }
+            if(document.getElementById('user').value === "admin" && document.getElementById('pass').value === "1234") {
+                document.getElementById('login-screen').style.display = "none";
+            } else { alert("Usuario o Contraseña incorrectos"); }
         }
 
         function showView(v) {
-            document.querySelectorAll('.view').forEach(view => view.classList.remove('active'));
-            document.querySelectorAll('nav a').forEach(link => link.classList.remove('active'));
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
             document.getElementById('view-' + v).classList.add('active');
             document.getElementById('nav-' + v).classList.add('active');
             window.scrollTo(0,0);
         }
 
         const app = {
-            pacientes: [], medicos: [], citas: [],
+            pacientes: [], medicos: [], citas: [], indexEdit: null,
 
             add: function(tipo) {
                 if(tipo === 'paciente') {
                     const doc = document.getElementById('pDoc').value;
                     const nom = document.getElementById('pName').value;
-                    if(!doc || !nom) return alert("Faltan datos");
-                    this.pacientes.push({doc, nom});
+                    if(doc && nom) this.pacientes.push({doc, nom});
                     document.getElementById('pDoc').value = ""; document.getElementById('pName').value = "";
                 } else {
                     const nom = document.getElementById('mName').value;
                     const esp = document.getElementById('mEsp').value;
-                    if(!nom) return alert("Ingrese el nombre");
-                    this.medicos.push({nom, esp});
+                    if(nom) this.medicos.push({nom, esp});
                     document.getElementById('mName').value = "";
                 }
-                this.sync();
-                alert("Guardado exitosamente");
+                this.sync(); alert("Registro exitoso");
             },
 
             sync: function() {
                 const sp = document.getElementById('selP');
                 const sm = document.getElementById('selM');
-                sp.innerHTML = '<option value="">Seleccione...</option>';
-                sm.innerHTML = '<option value="">Seleccione...</option>';
+                sp.innerHTML = sm.innerHTML = '<option value="">Seleccione...</option>';
                 this.pacientes.forEach(p => sp.innerHTML += `<option value="${p.nom} [${p.doc}]">${p.nom} (${p.doc})</option>`);
                 this.medicos.forEach(m => sm.innerHTML += `<option value="${m.nom} (${m.esp})">${m.nom} [${m.esp}]</option>`);
             },
@@ -267,35 +277,45 @@
                 const m = document.getElementById('selM').value;
                 const d = document.getElementById('cDate').value;
                 const t = document.getElementById('cTime').value;
-
-                if(!p || !m || !d || !t) return alert("Complete fecha y hora");
-
-                const fullTime = `${d} | ${t}`;
-                if(this.citas.find(c => c.m === m && c.dt === fullTime)) return alert("Horario no disponible para este médico");
-
-                this.citas.push({p, m, dt: fullTime});
-                this.render();
+                if(p && m && d && t) {
+                    this.citas.push({p, m, dt: `${d} | ${t}`});
+                    this.render();
+                } else { alert("Complete todos los campos"); }
             },
 
             render: function() {
-                const b = document.getElementById('tableBody');
-                b.innerHTML = "";
+                const tb = document.getElementById('tableBody');
+                tb.innerHTML = "";
                 this.citas.forEach((c, i) => {
-                    b.innerHTML += `<tr>
+                    tb.innerHTML += `<tr>
                         <td>${c.p}</td><td>${c.m}</td><td>${c.dt}</td>
                         <td>
-                            <button class="btn-act" style="background:var(--secondary)" onclick="app.re(${i})">⚙️</button>
+                            <button class="btn-act" style="background:var(--secondary)" onclick="app.abrirModal(${i})">⚙️</button>
                             <button class="btn-act" style="background:var(--danger)" onclick="app.can(${i})">🗑️</button>
                         </td>
                     </tr>`;
                 });
             },
 
-            can: function(i) { if(confirm("¿Cancelar cita?")) { this.citas.splice(i, 1); this.render(); } },
-            re: function(i) {
-                const n = prompt("Nueva Fecha y Hora (AAAA-MM-DD | HH:MM):", this.citas[i].dt);
-                if(n) { this.citas[i].dt = n; this.render(); }
-            }
+            abrirModal: function(i) {
+                this.indexEdit = i;
+                document.getElementById('repro-paciente').innerText = this.citas[i].p;
+                document.getElementById('modal-repro').style.display = "flex";
+            },
+
+            cerrarModal: function() { document.getElementById('modal-repro').style.display = "none"; },
+
+            confirmarReprogramacion: function() {
+                const d = document.getElementById('newDate').value;
+                const t = document.getElementById('newTime').value;
+                if(d && t) {
+                    this.citas[this.indexEdit].dt = `${d} | ${t}`;
+                    this.render();
+                    this.cerrarModal();
+                } else { alert("Seleccione fecha y hora"); }
+            },
+
+            can: function(i) { if(confirm("¿Cancelar cita?")) { this.citas.splice(i, 1); this.render(); } }
         };
     </script>
 </body>
