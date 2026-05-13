@@ -315,7 +315,7 @@
     <!-- CAMBIO CLAVE: Cambiamos toggleAuth() por registrarUsuario() -->
     <button class="btn" style="background:var(--accent); color:white" onclick="registrarUsuario()">Registrarme</button>
     
-    <span class="toggle-link" onclick="toggleAuth()">Ya tengo cuenta, volver al login</span>
+    <span class="toggle-link" onclick="toggleAuth()">Ya tienes cuenta, volver al login</span>
 </div>
 
         <!-- Formulario Recuperar Contraseña -->
@@ -408,7 +408,7 @@
                     <label>Área de Especialidad</label>
                     <select id="mEsp">
                         <option>Medicina General</option><option>Pediatría</option>
-                        <option>Cardiología</option><option>Ginecología</option>
+                        <option>Cardiología</option><option>Ginecología</option><option>Psicologia</option><option>Ortopedia</option><option>Medicina Iterna</option><option>Neurologia</option><option>Laboratorio</option>
                     </select>
                     <button class="btn btn-primary" onclick="app.add('medico')">Guardar Médico</button>
                 </div>
@@ -748,5 +748,6 @@ function formatAmPm(timeString) {
     };
 
     </script>
+    
 </body>
 </html>
