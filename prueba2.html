@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediSchedule Premium - Equipo 4</title>
+    <style>
+        /* CONFIGURACIÓN GLOBAL */
+        :root {
+            --primary: #004a99;
+            --accent: #00d2ff;
+            --glass: rgba(255, 255, 255, 0.9);
+            --text: #2d3436;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            scroll-behavior: smooth;
+            background-color: #f0f2f5;
+        }
+
+        /* EFECTO DE FONDO CORRIDO (PARALLAX) */
+        .parallax-bg {
+            background-image: url('https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1920&q=80');
+            min-height: 100vh;
+            background-attachment: fixed; /* Esto hace que el fondo se quede quieto mientras el contenido sube */
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* CABECERA FLOTANTE */
+        header {
+            background: rgba(0, 74, 153, 0.85);
+            backdrop-filter: blur(10px);
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.2);
+            width: 80%;
+            max-width: 800px;
+        }
+
+        /* CONTENEDORES DE CONTENIDO */
+        .content-section {
+            padding: 80px 20px;
+            background: white;
+            position: relative;
+            z-index: 2;
+        }
+
+        .dark-section {
+            background: #2c3e50;
+            color: white;
+            padding: 100px 20px;
+            background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1551076805-e1869033e561?auto=format&fit=crop&w=1350&q=80');
+            background-attachment: fixed;
+            background-size: cover;
+        }
+
+        /* REQUERIMIENTOS EN GRID */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .req-card {
+            background: var(--glass);
+            padding: 20px;
+            border-radius: 15px;
+            border-left: 8px solid var(--primary);
+            transition: all 0.4s ease;
+            color: var(--text);
+        }
+
+        .req-card:hover {
+            transform: scale(1.05);
+            background: white;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        /* FORMULARIO MODERNIZADO */
+        .booking-box {
+            background: white;
+            max-width: 500px;
+            margin: -100px auto 50px; /* Sube un poco para entrar en la sección anterior */
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            position: relative;
+            z-index: 10;
+        }
+
+        .booking-box h2 {
+            color: var(--primary);
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 10px;
+        }
+
+        input, select, button {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border: 2px solid #eee;
+            border-radius: 10px;
+            outline: none;
+            transition: border 0.3s;
+        }
+
+        input:focus { border-color: var(--accent); }
+
+        button {
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            color: white;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1em;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            filter: brightness(1.1);
+            box-shadow: 0 5px 15px rgba(0,210,255,0.4);
+        }
+
+        /* IMÁGENES EXTRA */
+        .img-row {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .img-row img {
+            width: 30%;
+            border-radius: 10px;
+            height: 150px;
+            object-fit: cover;
+        }
+
+        footer {
+            background: #1a1a1a;
+            color: #777;
+            text-align: center;
+            padding: 30px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SECCIÓN DE FONDO CORRIDO (PARALLAX) -->
+    <div class="parallax-bg">
+        <header>
+            <h1 style="margin:0; font-size: 3em;">MediSchedule Pro</h1>
+            <p style="font-size: 1.2em;">Gestión Hospitalaria de Vanguardia - Equipo 4</p>
+        </header>
+    </div>
+
+    <!-- SECCIÓN DE REQUERIMIENTOS -->
+    <section class="content-section">
+        <h2 style="text-align:center; font-size: 2.5em; color: var(--primary);">Requerimientos del Caso</h2>
+        <div class="grid-container">
+            <div class="req-card"><h3>01. Pacientes</h3>Registro completo de datos clínicos.</div>
+            <div class="req-card"><h3>02. Médicos</h3>Gestión de staff y especialidades.</div>
+            <div class="req-card"><h3>03. Agendar</h3>Motor de reservas inteligente.</div>
+            <div class="req-card"><h3>04. Disponibilidad</h3>Filtros de horarios en tiempo real.</div>
+            <div class="req-card"><h3>05. Cancelar</h3>Gestión de bajas con aviso previo.</div>
+            <div class="req-card"><h3>06. Reprogramar</h3>Ajustes flexibles de calendario.</div>
+            <div class="req-card"><h3>07. Horarios</h3>Validación de turnos médicos.</div>
+            <div class="req-card"><h3>08. Historial</h3>Trazabilidad de citas anteriores.</div>
+            <div class="req-card"><h3>09. Notificar</h3>Alertas vía Email/SMS.</div>
+            <div class="req-card"><h3>10. Duplicados</h3>Prevención de errores de cruce.</div>
+        </div>
+    </section>
+
+    <!-- SECCIÓN CON SEGUNDO FONDO CORRIDO -->
+    <div class="dark-section">
+        <h2 style="text-align: center; font-size: 2em;">Tecnología aplicada al cuidado de la salud</h2>
+    </div>
+
+    <!-- FORMULARIO SOBREPUESTO -->
+    <section class="booking-box">
+        <h2>Agendar Cita Médica</h2>
+        <p>Complete los datos para procesar la reserva:</p>
+        <form>
+            <input type="text" placeholder="Documento del Paciente" required>
+            <select>
+                <option value="">Seleccione Médico...</option>
+                <option>Dr. Smith - Neurología</option>
+                <option>Dra. Vane - Traumatología</option>
+            </select>
+            <input type="date">
+            <input type="time">
+            <button type="button" onclick="alert('Cita procesada con éxito')">Validar y Agendar</button>
+        </form>
+        
+        <div class="img-row">
+            <img src="https://images.unsplash.com/photo-1581056771107-24ca5f033842?auto=format&fit=crop&w=400&q=80" alt="Consulta">
+            <img src="https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&w=400&q=80" alt="Laboratorio">
+            <img src="https://images.unsplash.com/photo-1505751172107-573225a942d4?auto=format&fit=crop&w=400&q=80" alt="Hospital">
+        </div>
+    </section>
+
+    <footer>
+        <p>Desarrollado por <strong>Equipo 4</strong> &copy; 2026 - Sistema de Agenda Médica</p>
+    </footer>
+
+</body>
+</html>

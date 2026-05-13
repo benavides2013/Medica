@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediSchedule Dinámico - Equipo 4</title>
+    <style>
+        :root {
+            --primary: #004a99;
+            --accent: #00d2ff;
+            --white: rgba(255, 255, 255, 0.95);
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', sans-serif;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* CLASE MAESTRA PARA EL FONDO QUE SE MUEVE */
+        .parallax {
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            min-height: 600px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* IMAGEN 1: Cabecera */
+        .bg-header {
+            background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+                              url('https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1920&q=80');
+            height: 100vh;
+        }
+
+        /* IMAGEN 2: Detrás de los Módulos */
+        .bg-modules {
+            background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), 
+                              url('https://images.unsplash.com/photo-1512678080530-7760d81faba6?auto=format&fit=crop&w=1920&q=80');
+            padding: 100px 0;
+        }
+
+        /* IMAGEN 3: Detrás del Formulario */
+        .bg-footer {
+            background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), 
+                              url('https://images.unsplash.com/photo-1504813184591-01592fd039e5?auto=format&fit=crop&w=1920&q=80');
+            padding: 150px 0;
+        }
+
+        .glass-header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            padding: 50px;
+            border-radius: 30px;
+            color: white;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        /* CONTENEDOR DE LOS REQUERIMIENTOS */
+        .modules-container {
+            width: 90%;
+            max-width: 1100px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .req-card {
+            background: var(--white);
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transition: 0.3s;
+            border-bottom: 5px solid var(--primary);
+        }
+
+        .req-card:hover {
+            transform: translateY(-10px);
+            background: #fff;
+        }
+
+        .req-card h3 {
+            color: var(--primary);
+            font-size: 1.1em;
+            margin-bottom: 10px;
+        }
+
+        /* ESTILO DEL FORMULARIO */
+        .booking-card {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+
+        input, select, button {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: var(--accent);
+        }
+
+        .tag {
+            background: var(--accent);
+            color: #000;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.8em;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. HEADER CON FONDO MÓVIL -->
+    <div class="parallax bg-header">
+        <div class="glass-header">
+            <span class="tag">CASO: AGENDA MÉDICA</span>
+            <h1 style="font-size: 3.5em; margin: 10px 0;">EQUIPO 4</h1>
+            <p style="font-size: 1.5em;">Sistema de Gestión Hospitalaria</p>
+        </div>
+    </div>
+
+    <!-- 2. SECCIÓN DE MÓDULOS CON FONDO MÓVIL -->
+    <div class="parallax bg-modules">
+        <div class="modules-container">
+            <div class="req-card"><h3>1. Registrar Pacientes</h3></div>
+            <div class="req-card"><h3>2. Registrar Médicos</h3></div>
+            <div class="req-card"><h3>3. Agendar Citas</h3></div>
+            <div class="req-card"><h3>4. Mostrar Disponibilidad</h3></div>
+            <div class="req-card"><h3>5. Cancelar Citas</h3></div>
+            <div class="req-card"><h3>6. Reprogramar Citas</h3></div>
+            <div class="req-card"><h3>7. Validar Horarios</h3></div>
+            <div class="req-card"><h3>8. Consultar Historial</h3></div>
+            <div class="req-card"><h3>9. Notificar Confirmación</h3></div>
+            <div class="req-card"><h3>10. Evitar Duplicados</h3></div>
+        </div>
+    </div>
+
+    <!-- 3. SECCIÓN DE FORMULARIO CON OTRO FONDO MÓVIL -->
+    <div class="parallax bg-footer">
+        <div class="booking-card">
+            <h2 style="color: var(--primary); text-align: center;">Agendamiento en Línea</h2>
+            <form onsubmit="event.preventDefault(); alert('Cita enviada al Equipo 4');">
+                <input type="text" placeholder="ID del Paciente" required>
+                <select required>
+                    <option value="">Seleccione Médico</option>
+                    <option>Dr. García - General</option>
+                    <option>Dra. Torres - Especialista</option>
+                </select>
+                <input type="datetime-local" required>
+                <button type="submit">PROCESAR CITA</button>
+            </form>
+        </div>
+    </div>
+
+    <footer style="background: #111; color: white; text-align: center; padding: 20px;">
+        <p>Proyecto Técnico Equipo 4 - 2026</p>
+    </footer>
+
+</body>
+</html>
