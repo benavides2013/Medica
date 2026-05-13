@@ -16,11 +16,32 @@
         }
 
         body, html {
-            margin: 0; padding: 0;
-            font-family: 'Segoe UI', sans-serif;
-            background: var(--light);
-            scroll-behavior: smooth;
+            margin: 0; 
+    padding: 0;
+    font-family: 'Segoe UI', sans-serif;
+    /* Imagen fija que no se mueve al hacer scroll */
+    background: linear-gradient(rgba(248, 249, 250, 0.9), rgba(248, 249, 250, 0.9)), 
+                url('https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1920&q=80');
+    background-attachment: fixed; 
+    background-size: cover;
+    background-position: center;
+    color: var(--text);
+    transition: background 0.3s;
+}
+
+/* Hacer que las vistas y el hero sean transparentes para ver el fondo del body */
+.view, .hero {
+    background: transparent !important;
+}
+
+/* Opcional: Si quieres que el modo oscuro también tenga su propio fondo */
+[data-theme="dark"] body {
+    background: linear-gradient(rgba(10, 25, 47, 0.9), rgba(10, 25, 47, 0.9)), 
+                url('https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1920&q=80');
+    background-attachment: fixed;
+    background-size: cover;
         }
+
 /* Variables para Modo Oscuro */
 [data-theme="dark"] {
     --primary: #0a192f;
@@ -408,6 +429,7 @@
         </div>
     </div>
 </div>
+
     <footer><p>Gestión MediSchedule | <b>EQUIPO 4</b> | 2026</p></footer>
 
     <script>
