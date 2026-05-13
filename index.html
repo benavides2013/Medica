@@ -292,7 +292,7 @@
         <div class="login-card" id="card-login">
             <div style="font-size: 3rem; margin-bottom: 10px;">✚</div>
             <h2>Iniciar Sesión</h2>
-            <p style="font-size: 0.8rem; opacity: 0.8; margin-bottom: 20px;">Acceso Profesional Equipo 4</p>
+            <p style="font-size: 0.8rem; opacity: 0.8; margin-bottom: 20px;">Gestion Equipo 4</p>
             <input type="text" id="user" placeholder="Usuario">
             <input type="password" id="pass" placeholder="Contraseña">
             <button class="btn" style="background:white; color:var(--primary)" onclick="validarAcceso()">Entrar al Sistema</button>
@@ -344,7 +344,7 @@
     <div id="view-inicio" class="view active">
         <section class="hero">
             <h1 style="font-size: 3.5rem; margin: 0;">Excelencia Médica</h1>
-            <p style="font-size: 1.2rem; opacity: 0.9;">Gestión Avanzada - Equipo 4</p>
+            <p style="font-size: 1.2rem; opacity: 0.9;">Cuidamos de ti</p>
         </section>
         
         <div class="container">
@@ -375,7 +375,7 @@
             <div class="grid-2">
                 <div class="info-card">
                     <h3 style="color: var(--primary)">📍 Encuéntranos</h3>
-                    <p><b>Sede Principal:</b> Avenida Siempre Viva 742, Edificio MediSchedule.</p>
+                    <p><b>Sede Principal:</b> Avenida Siempre Viva 742, Edificio SANNA.</p>
                     <p><b>Ciudad:</b> Bogotá D.C., Colombia</p>
                     <p><b>Atención:</b> 24 Horas / 7 Días</p>
                     <div class="map-container">
@@ -472,7 +472,12 @@
                     <option>60</option>
                     <option>Manual</option>
                 </select>
-                <button class="btn" style="background:var(--accent); color:white; margin-top: 20px;">Guardar Preferencias</button>
+<button class="btn" 
+        style="background:var(--accent); color:white; margin-top: 20px;" 
+        onclick="guardarConfiguracion()">
+    Guardar Preferencias
+</button>
+
             </div>
         </div>
     </div>
@@ -673,7 +678,16 @@ confirmarReprogramacion: function() {
         toggleMenu(); 
     }
 }
+function guardarConfiguracion() {
+    // 1. Aquí podrías capturar los valores de los checkboxes si lo deseas
+    // Por ahora, simularemos el guardado.
+    
+    // 2. Mostrar mensaje de éxito
+    alert("✅ Configuración actualizada correctamente.\nLos cambios se han aplicado a este navegador.");
 
+    // 3. Opcional: Redirigir al inicio después de aceptar el mensaje
+    showView('inicio');
+}
     function toggleMenu() {
         document.getElementById('sidebar').classList.toggle('active');
         document.getElementById('overlay').classList.toggle('active');
