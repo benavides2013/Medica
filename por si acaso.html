@@ -16,32 +16,11 @@
         }
 
         body, html {
-            margin: 0; 
-    padding: 0;
-    font-family: 'Segoe UI', sans-serif;
-    /* Imagen fija que no se mueve al hacer scroll */
-    background: linear-gradient(rgba(248, 249, 250, 0.9), rgba(248, 249, 250, 0.9)), 
-                url('https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1920&q=80');
-    background-attachment: fixed; 
-    background-size: cover;
-    background-position: center;
-    color: var(--text);
-    transition: background 0.3s;
-}
-
-/* Hacer que las vistas y el hero sean transparentes para ver el fondo del body */
-.view, .hero {
-    background: transparent !important;
-}
-
-/* Opcional: Si quieres que el modo oscuro también tenga su propio fondo */
-[data-theme="dark"] body {
-    background: linear-gradient(rgba(10, 25, 47, 0.9), rgba(10, 25, 47, 0.9)), 
-                url('https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1920&q=80');
-    background-attachment: fixed;
-    background-size: cover;
+            margin: 0; padding: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: var(--light);
+            scroll-behavior: smooth;
         }
-
 /* Variables para Modo Oscuro */
 [data-theme="dark"] {
     --primary: #0a192f;
@@ -73,6 +52,19 @@
 .overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background: rgba(0,0,0,0.5); display: none; z-index: 3500;
+}
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    display: none; 
+    justify-content: center;
+    align-items: center;
+    z-index: 6000;
+    backdrop-filter: blur(5px);
 }
 .overlay.active { display: block; }
 
@@ -208,6 +200,19 @@
         .btn-act { padding: 8px 12px; border: none; border-radius: 6px; color: white; cursor: pointer; }
 
         footer { background: var(--primary); color: white; padding: 30px; text-align: center; margin-top: 50px; }
+
+        /* MODAL SOPORTE DINÁMICO */
+        #modal-soporte {
+            display: none;
+            position: fixed;
+            z-index: 6000;
+            left: 0; top: 0;
+            width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
     </style>
 </head>
 <body>
@@ -243,6 +248,28 @@
             </div>
         </div>
     </div>
+    
+    <!-- MODAL SOPORTE ACTUALIZADO -->
+    <div id="modal-soporte">
+        <div class="modal-content" style="text-align: center;">
+            <h2 style="color: var(--primary); margin-bottom: 15px;">🛠️ Soporte Técnico</h2>
+            <p style="margin-bottom: 20px;">Desarrollado por: <strong>MOONSTATE</strong></p>
+            
+            <div style="margin: 25px 0;">
+                <a href="https://wa.me/573116045782" target="_blank" rel="noopener noreferrer" 
+                   style="background: #25D366; color: white; padding: 15px 25px; border-radius: 50px; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; font-weight: bold; box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3);">
+                   <span>💬</span> Contactar vía WhatsApp
+                </a>
+            </div>
+
+            <div style="text-align: left; background: #f9f9f9; padding: 15px; border-radius: 10px; color: #333; font-size: 0.9rem;">
+                <p><strong>Email:</strong> soporte@moonstate.com</p>
+                <p><strong>Teléfono:</strong> +57 311 604 5782</p>
+                <p><strong>ID Proyecto:</strong> EQ4-2026-MS</p>
+            </div>
+            <button class="btn btn-primary" style="margin-top: 20px;" onclick="cerrarSoporte()">Cerrar</button>
+        </div>
+    </div>
 
     <!-- PANTALLA LOGIN / REGISTRO / RECUPERAR -->
     <div id="login-screen">
@@ -259,17 +286,23 @@
         </div>
 
         <!-- Formulario Crear Cuenta -->
+        <!-- Formulario Crear Cuenta -->
         <div class="login-card" id="card-register" style="display: none;">
-            <div style="font-size: 3rem; margin-bottom: 10px;">🛡️</div>
-            <h2>Crear Cuenta</h2>
-            <p style="font-size: 0.8rem; opacity: 0.8; margin-bottom: 20px;">Únete a la plataforma MediSchedule</p>
-            <input type="text" placeholder="Nombre Completo">
-            <input type="email" placeholder="Correo Electrónico">
-            <input type="text" placeholder="Nuevo Usuario">
-            <input type="password" placeholder="Nueva Contraseña">
-            <button class="btn" style="background:var(--accent); color:white" onclick="toggleAuth()">Registrarme</button>
-            <span class="toggle-link" onclick="toggleAuth()">Ya tengo cuenta, volver al login</span>
-        </div>
+    <div style="font-size: 3rem; margin-bottom: 10px;">🛡️</div>
+    <h2>Crear Cuenta</h2>
+    <p style="font-size: 0.8rem; opacity: 0.8; margin-bottom: 20px;">Únete a la plataforma</p>
+    
+    <!-- Agregamos IDs para que el JS los reconozca -->
+    <input type="text" id="reg-nombre" placeholder="Nombre Completo">
+    <input type="email" id="reg-email" placeholder="Correo Electrónico">
+    <input type="text" id="reg-user" placeholder="Nuevo Usuario">
+    <input type="password" id="reg-pass" placeholder="Nueva Contraseña">
+    
+    <!-- CAMBIO CLAVE: Cambiamos toggleAuth() por registrarUsuario() -->
+    <button class="btn" style="background:var(--accent); color:white" onclick="registrarUsuario()">Registrarme</button>
+    
+    <span class="toggle-link" onclick="toggleAuth()">Ya tengo cuenta, volver al login</span>
+</div>
 
         <!-- Formulario Recuperar Contraseña -->
         <div class="login-card" id="card-reset" style="display: none;">
@@ -339,7 +372,7 @@
                     <div style="font-size: 4rem; color: var(--secondary);">📧</div>
                     <h3>Canal de Soporte</h3>
                     <p>¿Tienes dudas sobre el sistema? Nuestro equipo técnico está disponible para asistirte en tiempo real.</p>
-                    <button class="btn btn-primary">Contactar Soporte Equipo 4</button>
+                    <button class="btn btn-primary" onclick="abrirSoporte()">Contactar Soporte Equipo 4</button>
                 </div>
             </div>
         </div>
@@ -409,7 +442,7 @@
     </div>
 </div>
 
-<!-- VISTA CONFIGURACIÓN (Opciones de Desarrollador) -->
+<!-- VISTA CONFIGURACIÓN -->
 <div id="view-config" class="view">
     <div class="container">
         <div class="info-card" style="max-width: 600px; margin: auto;">
@@ -429,127 +462,197 @@
         </div>
     </div>
 </div>
-
     <footer><p>Gestión MediSchedule | <b>EQUIPO 4</b> | 2026</p></footer>
 
     <script>
-        // --- LÓGICA DE LOGIN Y REGISTRO ---
-        function toggleAuth() {
-            const loginCard = document.getElementById('card-login');
-            const registerCard = document.getElementById('card-register');
-            const resetCard = document.getElementById('card-reset');
-            resetCard.style.display = "none";
-            if(loginCard.style.display === "none") {
-                loginCard.style.display = "block";
-                registerCard.style.display = "none";
+
+    let usuarios = JSON.parse(localStorage.getItem('usuarios')) || [
+        { user: "admin", pass: "1234", nombre: "Administrador", email: "admin@medischedule.com" }
+    ];
+
+    // 2. LÓGICA DE USUARIOS (Login y Registro)
+    function registrarUsuario() {
+        // Buscamos los inputs dentro de la tarjeta de registro
+        const inputs = document.querySelectorAll('#card-register input');
+        const nombre = inputs[0].value;
+        const email = inputs[1].value;
+        const user = inputs[2].value;
+        const pass = inputs[3].value;
+
+        if (nombre && email && user && pass) {
+            if (usuarios.find(u => u.user === user)) {
+                return alert("El usuario ya existe.");
+            }
+            usuarios.push({ nombre, email, user, pass });
+            localStorage.setItem('usuarios', JSON.stringify(usuarios));
+            alert("Cuenta creada. ¡Ya puedes iniciar sesión!");
+            toggleAuth(); // Regresa al login automáticamente
+        } else {
+            alert("Llena todos los campos.");
+        }
+    }
+
+    function validarAcceso() {
+        const userIn = document.getElementById('user').value;
+        const passIn = document.getElementById('pass').value;
+        const encontrado = usuarios.find(u => u.user === userIn && u.pass === passIn);
+
+        if (encontrado) {
+            // Actualizamos la interfaz con los datos del usuario que entró
+            document.getElementById('profile-name-display').innerText = encontrado.nombre;
+            document.getElementById('prof-name').value = encontrado.nombre;
+            document.getElementById('prof-email').value = encontrado.email || "";
+            
+            // Escondemos el login
+            document.getElementById('login-screen').style.opacity = "0";
+            setTimeout(() => document.getElementById('login-screen').style.display = "none", 500);
+        } else {
+            alert("Datos incorrectos.");
+        }
+    }
+
+    // 3. LÓGICA DE LA APLICACIÓN (Citas, Pacientes, Médicos)
+    const app = {
+        pacientes: JSON.parse(localStorage.getItem('pacientes')) || [],
+        medicos: JSON.parse(localStorage.getItem('medicos')) || [],
+        citas: JSON.parse(localStorage.getItem('citas')) || [],
+        indexEdit: null,
+
+        guardarLocal: function() {
+            localStorage.setItem('pacientes', JSON.stringify(this.pacientes));
+            localStorage.setItem('medicos', JSON.stringify(this.medicos));
+            localStorage.setItem('citas', JSON.stringify(this.citas));
+        },
+
+        add: function(tipo) {
+            if(tipo === 'paciente') {
+                const doc = document.getElementById('pDoc').value;
+                const nom = document.getElementById('pName').value;
+                if(doc && nom) this.pacientes.push({doc, nom});
             } else {
-                loginCard.style.display = "none";
-                registerCard.style.display = "block";
+                const nom = document.getElementById('mName').value;
+                const esp = document.getElementById('mEsp').value;
+                if(nom) this.medicos.push({nom, esp});
+            }
+            this.guardarLocal();
+            this.sync();
+            alert("Guardado correctamente.");
+        },
+
+        sync: function() {
+            const sp = document.getElementById('selP');
+            const sm = document.getElementById('selM');
+            if(!sp || !sm) return;
+            sp.innerHTML = sm.innerHTML = '<option value="">Seleccione...</option>';
+            this.pacientes.forEach(p => sp.innerHTML += `<option value="${p.nom}">${p.nom} (${p.doc})</option>`);
+            this.medicos.forEach(m => sm.innerHTML += `<option value="${m.nom}">${m.nom} (${m.esp})</option>`);
+        },
+
+        book: function() {
+            const p = document.getElementById('selP').value;
+            const m = document.getElementById('selM').value;
+            const d = document.getElementById('cDate').value;
+            const t = document.getElementById('cTime').value;
+            if(p && m && d && t) {
+                this.citas.push({p, m, dt: `${d} | ${t}`});
+                this.guardarLocal();
+                this.render();
+            }
+        },
+
+        render: function() {
+            const tb = document.getElementById('tableBody');
+            if(!tb) return;
+            tb.innerHTML = "";
+            this.citas.forEach((c, i) => {
+                tb.innerHTML += `<tr><td>${c.p}</td><td>${c.m}</td><td>${c.dt}</td>
+                <td><button class="btn-act" style="background:var(--secondary)" onclick="app.abrirModal(${i})">⚙️</button>
+                <button class="btn-act" style="background:var(--danger)" onclick="app.can(${i})">🗑️</button></td></tr>`;
+            });
+        },
+
+        abrirModal: function(i) {
+            this.indexEdit = i;
+            document.getElementById('repro-paciente').innerText = this.citas[i].p;
+            document.getElementById('modal-repro').style.display = "flex";
+        },
+
+        cerrarModal: function() { document.getElementById('modal-repro').style.display = "none"; },
+
+        confirmarReprogramacion: function() {
+            const d = document.getElementById('newDate').value;
+            const t = document.getElementById('newTime').value;
+            if(d && t) {
+                this.citas[this.indexEdit].dt = `${d} | ${t}`;
+                this.guardarLocal();
+                this.render();
+                this.cerrarModal();
+            }
+        },
+
+        can: function(i) {
+            if(confirm("¿Eliminar cita?")) {
+                this.citas.splice(i, 1);
+                this.guardarLocal();
+                this.render();
             }
         }
-function toggleDarkMode() {
-    const html = document.documentElement;
-    if (html.getAttribute('data-theme') === 'dark') {
-        html.removeAttribute('data-theme');
-    } else {
-        html.setAttribute('data-theme', 'dark');
+    };
+
+    // 4. FUNCIONES DE INTERFAZ (Modo Oscuro, Menús, Vistas)
+    function toggleAuth() {
+        const login = document.getElementById('card-login');
+        const register = document.getElementById('card-register');
+        const reset = document.getElementById('card-reset');
+        reset.style.display = "none";
+        if(login.style.display === "none") {
+            login.style.display = "block"; register.style.display = "none";
+        } else {
+            login.style.display = "none"; register.style.display = "block";
+        }
     }
-}
-        function toggleReset() {
-            const loginCard = document.getElementById('card-login');
-            const resetCard = document.getElementById('card-reset');
-            const registerCard = document.getElementById('card-register');
-            registerCard.style.display = "none";
-            if(resetCard.style.display === "none") {
-                resetCard.style.display = "block";
-                loginCard.style.display = "none";
-            } else {
-                resetCard.style.display = "none";
-                loginCard.style.display = "block";
-            }
-        }
 
-        function validarAcceso() {
-            if(document.getElementById('user').value === "admin" && document.getElementById('pass').value === "1234") {
-                document.getElementById('login-screen').style.opacity = "0";
-                setTimeout(() => document.getElementById('login-screen').style.display = "none", 500);
-            } else { alert("Acceso Denegado"); }
-        }
+    function toggleDarkMode() {
+        const html = document.documentElement;
+        html.getAttribute('data-theme') === 'dark' ? html.removeAttribute('data-theme') : html.setAttribute('data-theme', 'dark');
+    }
 
-        // --- NAVEGACIÓN ---
-        function showView(v) {
-            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-            document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
-            document.getElementById('view-' + v).classList.add('active');
-            document.getElementById('nav-' + v).classList.add('active');
-            window.scrollTo(0,0);
-        }
-function toggleMenu() {
-    document.getElementById('sidebar').classList.toggle('active');
-    document.getElementById('overlay').classList.toggle('active');
-}
+    function showView(v) {
+    // 1. Quitar la clase active de todas las vistas y enlaces
+    document.querySelectorAll('.view').forEach(view => view.classList.remove('active'));
+    document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+    
+    // 2. Mostrar la vista seleccionada
+    const targetView = document.getElementById('view-' + v);
+    if (targetView) targetView.classList.add('active');
+    
+    // 3. Activar el link correspondiente en el nav superior (si existe)
+    const targetNav = document.getElementById('nav-' + v);
+    if (targetNav) targetNav.classList.add('active');
 
-function cerrarSesion() {
-    if(confirm("¿Seguro que desea cerrar sesión?")) {
-        location.reload(); // Recarga la página para volver al login
+    // 4. CORRECCIÓN: Solo cerrar el menú si está abierto (clase 'active' presente)
+    const sidebar = document.getElementById('sidebar');
+    if (sidebar.classList.contains('active')) {
+        toggleMenu(); 
     }
 }
 
-// Actualiza tu función showView existente o asegúrate de que maneje las nuevas vistas:
-const originalShowView = showView;
-showView = function(v) {
-    originalShowView(v);
-    // Cerrar el menú automáticamente al cambiar de vista
-    document.getElementById('sidebar').classList.remove('active');
-    document.getElementById('overlay').classList.remove('active');
-}
+    function toggleMenu() {
+        document.getElementById('sidebar').classList.toggle('active');
+        document.getElementById('overlay').classList.toggle('active');
+    }
 
-        // --- CORE APP ---
-        const app = {
-            pacientes: [], medicos: [], citas: [], indexEdit: null,
-            add: function(tipo) {
-                if(tipo === 'paciente') {
-                    const doc = document.getElementById('pDoc').value;
-                    const nom = document.getElementById('pName').value;
-                    if(doc && nom) this.pacientes.push({doc, nom});
-                } else {
-                    const nom = document.getElementById('mName').value;
-                    const esp = document.getElementById('mEsp').value;
-                    if(nom) this.medicos.push({nom, esp});
-                }
-                this.sync(); alert("Información guardada.");
-            },
-            sync: function() {
-                const sp = document.getElementById('selP'); const sm = document.getElementById('selM');
-                sp.innerHTML = sm.innerHTML = '<option value="">Seleccione...</option>';
-                this.pacientes.forEach(p => sp.innerHTML += `<option value="${p.nom}">${p.nom} (${p.doc})</option>`);
-                this.medicos.forEach(m => sm.innerHTML += `<option value="${m.nom}">${m.nom} (${m.esp})</option>`);
-            },
-            book: function() {
-                const p = document.getElementById('selP').value; const m = document.getElementById('selM').value;
-                const d = document.getElementById('cDate').value; const t = document.getElementById('cTime').value;
-                if(p && m && d && t) { this.citas.push({p, m, dt: `${d} | ${t}`}); this.render(); }
-            },
-            render: function() {
-                const tb = document.getElementById('tableBody'); tb.innerHTML = "";
-                this.citas.forEach((c, i) => {
-                    tb.innerHTML += `<tr><td>${c.p}</td><td>${c.m}</td><td>${c.dt}</td>
-                    <td><button class="btn-act" style="background:var(--secondary)" onclick="app.abrirModal(${i})">⚙️</button>
-                    <button class="btn-act" style="background:var(--danger)" onclick="app.can(${i})">🗑️</button></td></tr>`;
-                });
-            },
-            abrirModal: function(i) {
-                this.indexEdit = i;
-                document.getElementById('repro-paciente').innerText = this.citas[i].p;
-                document.getElementById('modal-repro').style.display = "flex";
-            },
-            cerrarModal: function() { document.getElementById('modal-repro').style.display = "none"; },
-            confirmarReprogramacion: function() {
-                const d = document.getElementById('newDate').value; const t = document.getElementById('newTime').value;
-                if(d && t) { this.citas[this.indexEdit].dt = `${d} | ${t}`; this.render(); this.cerrarModal(); }
-            },
-            can: function(i) { if(confirm("¿Eliminar cita?")) { this.citas.splice(i, 1); this.render(); } }
-        };
+    function abrirSoporte() { document.getElementById('modal-soporte').style.display = 'flex'; }
+    function cerrarSoporte() { document.getElementById('modal-soporte').style.display = 'none'; }
+    function cerrarSesion() { if(confirm("¿Cerrar sesión?")) location.reload(); }
+
+    // 5. INICIALIZACIÓN (Se ejecuta al abrir la página)
+    window.onload = function() {
+        app.sync();
+        app.render();
+    };
+
+    
     </script>
 </body>
 </html>
