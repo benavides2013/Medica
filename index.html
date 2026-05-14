@@ -546,19 +546,27 @@
         },
 
         add: function(tipo) {
-            if(tipo === 'paciente') {
-                const doc = document.getElementById('pDoc').value;
-                const nom = document.getElementById('pName').value;
-                if(doc && nom) this.pacientes.push({doc, nom});
-            } else {
-                const nom = document.getElementById('mName').value;
-                const esp = document.getElementById('mEsp').value;
-                if(nom) this.medicos.push({nom, esp});
-            }
-            this.guardarLocal();
-            this.sync();
-            alert("Guardado correctamente.");
-        },
+                if(tipo === 'paciente') {
+                    const doc = document.getElementById('pDoc').value;
+                    const nom = document.getElementById('pName').value;
+                    if(doc && nom) {
+                        this.pacientes.push({doc, nom});
+                        // Limpiar los campos del paciente
+                        document.getElementById('pDoc').value = '';
+                        document.getElementById('pName').value = '';
+                    }
+                } else {
+                    const nom = document.getElementById('mName').value;
+                    const esp = document.getElementById('mEsp').value;
+                    if(nom) {
+                        this.medicos.push({nom, esp});
+                        // Limpiar el campo del médico y reiniciar el select
+                        document.getElementById('mName').value = '';
+                        document.getElementById('mEsp').selectedIndex = 0;
+                    }
+                }
+                this.sync(); alert("Información guardada.");
+            },
 
         sync: function() {
             const sp = document.getElementById('selP');
@@ -570,22 +578,24 @@
         },
 
         book: function() {
-    const p = document.getElementById('selP').value;
-    const m = document.getElementById('selM').value;
-    const d = document.getElementById('cDate').value;
-    const tRaw = document.getElementById('cTime').value; // Hora 24h
-    
-    if(p && m && d && tRaw) {
-        const tFormatted = formatAmPm(tRaw); // Convertimos a AM/PM
-        this.citas.push({p, m, dt: `${d} | ${tFormatted}`});
-        this.guardarLocal();
-        this.render();
-        // Opcional: limpiar campos
-        document.getElementById('cTime').value = "";
-    } else {
-        alert("Por favor completa todos los campos de la cita");
-    }
-},
+                const p = document.getElementById('selP').value; const m = document.getElementById('selM').value;
+                const d = document.getElementById('cDate').value; const t = document.getElementById('cTime').value;
+                
+                if(p && m && d && t) { 
+                    const fechaHora = `${d} | ${t}`;
+                    
+                    // Verificar si el médico ya tiene una cita en esa fecha y hora
+                    const ocupado = this.citas.some(cita => cita.m === m && cita.dt === fechaHora);
+                    
+                    if(ocupado) {
+                        alert("Agenda no disponible");
+                        return; // Detiene la función para que no guarde la cita
+                    }
+                    
+                    this.citas.push({p, m, dt: fechaHora}); 
+                    this.render(); 
+                }
+            },
 
 confirmarReprogramacion: function() {
     const d = document.getElementById('newDate').value;
