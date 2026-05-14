@@ -513,23 +513,23 @@
     }
 
     function validarAcceso() {
-        const userIn = document.getElementById('user').value;
-        const passIn = document.getElementById('pass').value;
-        const encontrado = usuarios.find(u => u.user === userIn && u.pass === passIn);
+            const userIn = document.getElementById('user').value;
+            const passIn = document.getElementById('pass').value;
 
-        if (encontrado) {
-            // Actualizamos la interfaz con los datos del usuario que entró
-            document.getElementById('profile-name-display').innerText = encontrado.nombre;
-            document.getElementById('prof-name').value = encontrado.nombre;
-            document.getElementById('prof-email').value = encontrado.email || "";
-            
-            // Escondemos el login
-            document.getElementById('login-screen').style.opacity = "0";
-            setTimeout(() => document.getElementById('login-screen').style.display = "none", 500);
-        } else {
-            alert("Datos incorrectos.");
+            if(userIn === "admin" && passIn === "1234") {
+                // Guardamos el estado en el navegador
+                localStorage.setItem('sesionActiva', 'true');
+                localStorage.setItem('usuarioNombre', 'Admin Equipo 4');
+                
+                document.getElementById('login-screen').style.opacity = "0";
+                setTimeout(() => {
+                    document.getElementById('login-screen').style.display = "none";
+                    verificarSesion(); // Aplicamos cambios visuales
+                }, 500);
+            } else { 
+                alert("Acceso Denegado"); 
+            }
         }
-    }
     
 
     // 3. LÓGICA DE LA APLICACIÓN (Citas, Pacientes, Médicos)
@@ -756,7 +756,27 @@ function formatAmPm(timeString) {
         app.sync();
         app.render();
     };
+function verificarSesion() {
+            const sesion = localStorage.getItem('sesionActiva');
+            const pantallaLogin = document.getElementById('login-screen');
+            
+            if (sesion === 'true') {
+                // Si ya inició sesión, ocultamos el login de inmediato
+                pantallaLogin.style.display = "none";
+                
+                // Actualizamos el nombre en el Sidebar y Perfil automáticamente
+                const nombre = localStorage.getItem('usuarioNombre');
+                if(document.getElementById('profile-name-display')) {
+                    document.getElementById('profile-name-display').innerText = nombre;
+                }
+                if(document.getElementById('prof-name')) {
+                    document.getElementById('prof-name').value = nombre;
+                }
+            }
+        }
 
+        // Ejecutar cada vez que la página cargue
+        window.onload = verificarSesion;
     </script>
     
 </body>
